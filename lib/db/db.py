@@ -1,10 +1,12 @@
-from os import isfile
+from os.path import isfile
 from sqlite3 import connect
+from apscheduler.triggers.cron import CronTrigger
 
-DB_PATH = "./data/db/database.db"
-BUILD_PATH = "./data/db/build.sql"
+#DB_PATH = "../../data/db/database.db"
+DB_PATH = "maybe/data/db/database.db"
+BUILD_PATH = "maybe/data/db/build.sql"
 
-cxn = commect(DB_PATH, check_same_thread=False)
+cxn = connect(DB_PATH, check_same_thread=False)
 cur =cxn.cursor()
 
 
@@ -23,6 +25,13 @@ def build():
 
 
 def commit():
+	cxn.commit()
+
+def autosave(sched):
+	sched.add_job(commit, CronTrigger(second=0))
+	#to commit database every time second goes to 0 i.e every minute
+
+def close():
 	cxn.close()
 
 
@@ -48,7 +57,7 @@ def records(command, *values):
 def column(command, *values):
 	cur.execute(command, tuple(values))
 
-	return[item[0] for item in cur.fetchall()]
+	return [item[0] for item in cur.fetchall()]
 
 
 def execute(command, *values):
