@@ -29,7 +29,7 @@ class Bot(BotBase):
 	def run(self, version):
 		self.VERSION = version
 
-		with open("maybe/lib/bot/token", "r", encoding="utf-8") as tf:
+		with open("./lib/bot/token", "r", encoding="utf-8") as tf:
 			self.TOKEN = tf.read()
 
 		print("discord_bot_project_code_workingDisplayMessage")
@@ -79,7 +79,7 @@ class Bot(BotBase):
 			embed.set_image(url=self.guild.icon_url)
 			
 			await channel.send(embed=embed)
-			await channel.send(file=File("maybe\data\images\discord_bot_ptoject_image.png"))
+			await channel.send(file=File(".\data\images\discord_bot_ptoject_image.png"))
 
 			print("discord_bot_project_bot_ready")
 
